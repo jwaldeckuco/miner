@@ -19,7 +19,7 @@ export class AppComponent implements OnInit{
 
   newKeywordInput = new FormControl('');
   // dev
-  dev = false;
+  dev = true;
   showKeywords: boolean = false;
   showResults: boolean = false;
   addButtonDisabled = true;
