@@ -28,18 +28,13 @@ export class CircularShifter extends KWICSFilter {
   //Performs the actual shifting of the supplied keyword line
   private shiftLine(line: Line){
     const tempOffsets = [...line.getOffsets()];
-    console.log(line)
-
     // for each offset in the line if offset is 0, push line to outputLines else shift and push
     line.getOffsets().forEach(offset => {
       if(!this.isNoise(line.getFirst() + offset)){
         if(offset == 0){
-          console.log("offset is 0, pushing")
           this.outputLines.addLine(line);
         }
         else{
-          console.log("offset is not 0, shifting")
-
           let tempLine = new Line(line.getFirst());
           tempOffsets.forEach((offset: number) => {
             tempLine.addOffset(offset);
@@ -59,15 +54,11 @@ export class CircularShifter extends KWICSFilter {
     let tempWord = this.charactersArray.getWordByIndex(index).toLowerCase();
     let result = false;
 
-    console.log("word: " + tempWord);
-
     this.noiseWords.forEach(word => {
       if(tempWord === word){
         result = true;
       }
     });
-
-    console.log(result);
 
     return result;
   }

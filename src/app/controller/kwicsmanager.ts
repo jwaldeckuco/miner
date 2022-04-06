@@ -85,7 +85,6 @@ export class KWICSManager{
     this.inputFilter.process();
 
     this.shifter.process();
-    console.log(this.shiftedIndex)
     this.alphabetizer.process();
     console.log(this.alphaIndex)
     this.output.process();

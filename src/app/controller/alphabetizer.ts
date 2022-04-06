@@ -17,25 +17,28 @@ export class Alphabetizer extends KWICSFilter{
     if(this.inputLines.getLines().length > 1){
       this.alphabetize();
     }
-    // if there is only one inputLine, set outputLines and pass
     else{
+      console.log("pushing to output lines")
       this.outputLines = this.inputLines;
     }
 
+    console.log("sort order");
+    console.log(this.sortOrder)
     this.correlate();
 
     this.reset();
   }
 
-  /**
-   * alphabetizes the shifted inputLines in ascending order.
-   * Lowercase characters are sorted before uppercase characters
-   * (eg: a < A)
+  /** alphabetizes the shifted inputLines in ascending order.
+   * Lowercase characters are sorted before uppercase characters (eg: a < A)
    */
   private alphabetize(){
     this.inputLines.getLines().forEach((line: Line) => {
-      this.pushCharValueArray(line.getFirst() + line.getOffsets()[0]);
+      this.pushCharValueArray(line);
     });
+
+    console.log("char vals");
+    console.log(this.charVals);
 
     this.sortOrder = [];
 
@@ -69,13 +72,25 @@ export class Alphabetizer extends KWICSFilter{
     }
   }
 
-  private pushCharValueArray(index: number){
-    let word = this.charactersArray.getWordByIndex(index);
+  private pushCharValueArray(line: Line){
+    let words = [];
     let tempValues: number[] = [];
 
-    for(let i = 0; i < word.length; ++i){
-      let value = this.adjustCharCode(word.charCodeAt(i));
-      tempValues.push(value);
+    for(let i = 0; i < line.getOffsets().length; ++i){
+      words.push(this.charactersArray.getWordByIndex(line.getFirst() + line.getOffsets()[i]));
+    }
+
+    for(let j = 0; j < words.length; ++j){
+      let word = words[j];
+
+      for(let i = 0; i < word.length; ++i){
+        let value = this.adjustCharCode(word.charCodeAt(i));
+        tempValues.push(value);
+      }
+
+      if(j < words.length -1){
+        tempValues.push(0);
+      }
     }
 
     this.charVals.push(tempValues);
