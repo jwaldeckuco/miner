@@ -79,14 +79,13 @@ export class KWICSManager{
   }
 
   input(lines: Array<string>){
+
     this.reset();
 
     this.inputFilter.setInputLines(lines);
     this.inputFilter.process();
-
     this.shifter.process();
     this.alphabetizer.process();
-    console.log(this.alphaIndex)
     this.output.process();
   }
 

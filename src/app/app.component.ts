@@ -24,19 +24,29 @@ export class AppComponent implements OnInit{
   showResults: boolean = false;
   addButtonDisabled = true;
   resetButtonDisabled = true;
+  executionTime = 0;
 
   constructor() {
   }
 
   ngOnInit(): void {
+
     if(this.dev){
+      let startTime = performance.now();
+
       TestCases.getCases().forEach(keyword => {
         this.readInput(keyword);
         this.clearKeywordInput();
         this.updateKeywordsArea();
         this.updateResultsArea();
       });
+
+      let stopTime = performance.now();
+      this.executionTime = stopTime - startTime;
+
     }
+
+
   }
 
   keywordChange(){
@@ -91,10 +101,4 @@ export class AppComponent implements OnInit{
     this.showResults = this.results.length !== 0;
   }
 
-  devPrint(message: any){
-    if(this.dev){
-      console.log("App.js")
-      console.log(message);
-    }
-  }
 }

@@ -18,12 +18,9 @@ export class Alphabetizer extends KWICSFilter{
       this.alphabetize();
     }
     else{
-      console.log("pushing to output lines")
       this.outputLines = this.inputLines;
     }
 
-    console.log("sort order");
-    console.log(this.sortOrder)
     this.correlate();
 
     this.reset();
@@ -36,9 +33,6 @@ export class Alphabetizer extends KWICSFilter{
     this.inputLines.getLines().forEach((line: Line) => {
       this.pushCharValueArray(line);
     });
-
-    console.log("char vals");
-    console.log(this.charVals);
 
     this.sortOrder = [];
 
