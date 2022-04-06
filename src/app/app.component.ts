@@ -19,29 +19,42 @@ export class AppComponent implements OnInit{
 
   newKeywordInput = new FormControl('');
   // dev
-  dev = true;
+  dev = false;
   showKeywords: boolean = false;
   showResults: boolean = false;
   addButtonDisabled = true;
   resetButtonDisabled = true;
   executionTime = 0;
+  devMode = "Turn on Dev Mode";
 
   constructor() {
   }
 
   ngOnInit(): void {
-    let startTime = performance.now();
+
+  }
+
+  devModeToggle(){
+    this.dev = !this.dev;
+
+    this.devMode = (this.dev) ? "Turn off Dev Mode" : "Turn on Dev Mode";
 
     if(this.dev){
+      let startTime = performance.now();
       TestCases.getCases().forEach(keyword => {
         this.readInput(keyword);
         this.clearKeywordInput();
         this.update();
       });
+      let stopTime = performance.now();
+      this.executionTime = stopTime - startTime;
+    }
+    else{
+      this.resetKeywords();
+      this.executionTime = 0;
     }
 
-    let stopTime = performance.now();
-    this.executionTime = stopTime - startTime;
+
   }
 
   keywordChange(){
