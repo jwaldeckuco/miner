@@ -1,9 +1,9 @@
-import {KWICSFilter} from "./kwics-filter";
-import {Line} from "../model/line";
-import { Characters } from "../model/characters";
-import { Indices } from "../model/indices";
+import {KwicsFilterShared} from "../kwics-filter/kwics-filter-shared";
+import {Line} from "../../structures/line";
+import { Characters } from "../../structures/characters";
+import { Indices } from "../../structures/indices";
 
-export class CircularShifter extends KWICSFilter {
+export class CircularShifter extends KwicsFilterShared {
   private noiseWords = [
     "a", "an", "the", "and", "or", "of", "to", "be", "is", "in", "out",
     "by", "as", "at", "off"

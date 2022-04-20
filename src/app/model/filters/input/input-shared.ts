@@ -1,8 +1,8 @@
-import {KWICSFilter} from "./kwics-filter";
-import {Indices} from "../model/indices";
-import {Characters} from "../model/characters";
+import {KwicsFilterShared} from "../kwics-filter/kwics-filter-shared";
+import {Indices} from "../../structures/indices";
+import {Characters} from "../../structures/characters";
 
-export class Input {
+export class InputShared {
   private first = 0;
   private offset = 0;
   private dev = false;

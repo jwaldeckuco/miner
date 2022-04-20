@@ -1,7 +1,7 @@
-import {KWICSFilter} from "./kwics-filter";
-import {Line} from "../model/line";
-import {Indices} from "../model/indices";
-import {Characters} from "../model/characters";
+import {KwicsFilterShared} from "../kwics-filter/kwics-filter-shared";
+import {Line} from "../../structures/line";
+import {Indices} from "../../structures/indices";
+import {Characters} from "../../structures/characters";
 
 export class Output{
   inputLines: Indices;
