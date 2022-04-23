@@ -1,12 +1,8 @@
 
 import {ListenerInterface} from "./invocation/listen/listener-interface";
 import {KwicsEvent} from "./invocation/event/kwics-event";
-import {EventType} from "./invocation/event/event-type";
-import {KeywordPair} from "./structures/keyword-pair";
 import {ManagerState} from "./manager-state/manager-state";
-import {ArchType} from "./manager-state/arch-type";
 import {InputInvocation} from "./filters/input/input-invocation";
-import {KwicsFilterInvocation} from "./filters/kwics-filter/kwics-filter-invocation";
 import {ShifterInvocation} from "./filters/shifter/shifter-invocation";
 import {ListenableStorage} from "./structures/listenable-storage";
 import {KeywordsStorage} from "./structures/keywords-storage";
@@ -29,11 +25,11 @@ export class KWICSManagerInvocation implements ListenerInterface{
   alphaLines!: ListenableStorage;
   outputKeywordPairs: KeywordsStorage;
 
-  constructor(inputKeywords: KeywordsStorage, outputKeywords: KeywordsStorage){
+  constructor(keywords: KeywordsStorage, outputKeywords: KeywordsStorage){
     // state arch type defaults to Implicit Invocation, so no need to set it manually
     this._state = new ManagerState();
 
-    this.inputKeywordPairs = inputKeywords;
+    this.inputKeywordPairs = keywords;
     this.outputKeywordPairs = outputKeywords;
 
     this.createDataStructures();

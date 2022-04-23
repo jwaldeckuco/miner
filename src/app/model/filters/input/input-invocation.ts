@@ -14,7 +14,7 @@ export class InputInvocation {
 
   constructor() {
     this._devPrinter = new DevPrinter("Input");
-    this._devPrinter.setPrint(false);
+    this._devPrinter.setPrint(true);
 
     this._inputLines = new KeywordsStorage();
     this._outputLines = new ListenableStorage();
@@ -37,26 +37,28 @@ export class InputInvocation {
 
   process(event: KwicsEvent): any {
     this._devPrinter?.setFunctionName("process");
-
-    if(event.eventType === EventType.READ_READY){
-      this._addPair();
-    }
-    if(event.eventType === EventType.KEYWORD_REMOVED_EVENT){
-      this._removePair(event as RemoveKeywordEvent);
-    }
+    this._addPair();
+    // if(event.eventType === EventType.READ_READY){
+    //
+    // }
+    // if(event.eventType === EventType.KEYWORD_REMOVED_EVENT){
+    //   this._removePair(event as RemoveKeywordEvent);
+    // }
   }
 
   private _addPair(){
     this._devPrinter.setFunctionName("addPair");
 
     this._outputLines.setFinishedFlag(false);
-    let pair = this._inputLines.read();
 
-    this._devPrinter.printKeywordPair(pair);
+    for(let i = 0; i < this._inputLines.length; ++i){
+      let pair = this._inputLines.getAtIndex(i);
+      this._devPrinter.printKeywordPair(pair);
 
-    this._outputLines!.insert(pair);
+      this._outputLines!.insert(pair);
+    }
+
     this._outputLines.setFinishedFlag(true);
-
   }
 
   private _removePair(event: RemoveKeywordEvent){

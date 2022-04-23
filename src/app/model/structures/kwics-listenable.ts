@@ -20,10 +20,9 @@ export class KwicsListenable implements ListenableInterface{
 
   updateListeners(event: KwicsEvent): any {
     this._devPrinter.setFunctionName("updateListeners");
+    this._devPrinter.printEnd();
 
     this.listeners.forEach(listener => {
-      this._devPrinter.printMessage("notifying listener");
-
       listener.notify(event);
     });
   }

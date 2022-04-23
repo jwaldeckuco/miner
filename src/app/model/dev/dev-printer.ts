@@ -28,13 +28,27 @@ export class DevPrinter {
 
   printKeywordPair(keywordPair: KeywordPair){
     if(this._print){
-      console.log(this._prefix + keywordPair.getKeyword() + ", " + keywordPair.getUrl());
+      console.log(this._prefix + "\n\t" + keywordPair.getKeyword() + ", \n\t" + keywordPair.getUrl());
     }
   }
 
   printMessage(message: string){
     if(this._print){
-      console.log(this._prefix + message);
+      console.log(this._prefix + "\n\t" + message);
     }
   }
+
+  printEnd(){
+    this.printMessage("\n\t----->");
+  }
+
+  printPairList(pairs: KeywordPair[]){
+    if(this._print){
+      console.log(this._prefix + "\n Pairs List");
+      pairs.forEach(pair => {
+        console.log(pair.toString());
+      });
+    }
+  }
+
 }

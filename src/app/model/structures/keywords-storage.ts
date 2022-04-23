@@ -11,26 +11,30 @@ export class KeywordsStorage extends ListenableStorage{
   constructor() {
     super();
     this._devPrinter = new DevPrinter("KeywordsStorage");
-    this._devPrinter.setPrint(false);
+    this._devPrinter.setPrint(true);
   }
 
   addKeywordPair(keywordPair: KeywordPair){
     this._devPrinter.setFunctionName("addKeywordPair");
 
     this.insert(keywordPair);
-
-    this._devPrinter.printKeywordPair(keywordPair);
   }
 
   removeKeywordPair(keywordPair: KeywordPair): any {
     this._devPrinter.setFunctionName("removeKeywordPair");
+    this._devPrinter.printPairList(this.getPairs())
+    this._devPrinter.printMessage("removing ")
+    this._devPrinter.printKeywordPair(keywordPair);
+    this._devPrinter.printPairList(this.getPairs())
+    this._devPrinter.printMessage("before length: " + this.length)
 
     this.remove(keywordPair);
-    this.updateListeners(new KwicsEvent(EventType.KEYWORD_REMOVED_EVENT));
+    this._devPrinter.printMessage("after length: " + this.length)
   }
 
   getKeywords(): string[]{
     this._devPrinter.setFunctionName("getKeywordPairs");
+
     let temp: string[] = [];
 
     this._pairs.forEach(keywordPair => {
@@ -41,6 +45,7 @@ export class KeywordsStorage extends ListenableStorage{
 
   getPairs(): KeywordPair[]{
     this._devPrinter.setFunctionName("getPairs");
-    return [...this._pairs];
+
+    return this._pairs;
   }
 }

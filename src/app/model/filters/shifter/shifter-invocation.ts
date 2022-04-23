@@ -17,8 +17,6 @@ export class ShifterInvocation extends KwicsFilterInvocation {
   }
 
   setNoiseFiltering(filter: boolean){
-    this._devPrinter?.setFunctionName("setNoiseFiltering");
-
     this._filtering = filter;
   }
 
@@ -27,22 +25,30 @@ export class ShifterInvocation extends KwicsFilterInvocation {
     this._devPrinter?.printMessage("processing");
 
     if(event.eventType === EventType.READ_READY){
-      this.shiftLine(this.inputLines!.read());
+      this.outputLines!.setFinishedFlag(false);
+
+      for(let i = 0; i < this.inputLines!.length; ++i){
+        this.shiftLine(this.inputLines!.getAtIndex(i));
+        this._devPrinter?.printMessage("done shifting " + this.inputLines!.getAtIndex(i).getKeyword())
+      }
+
+      this._devPrinter!.printEnd();
+
+      this.inputLines?.clear();
+      this.outputLines!.setFinishedFlag(true);
     }
   }
-
-  private shiftLines(){  }
 
   private shiftLine(keywordPair: KeywordPair){
     this._devPrinter?.setFunctionName("shiftLine");
     this._devPrinter?.printMessage("shifting Line");
     this._devPrinter?.printKeywordPair(keywordPair);
 
-    this.outputLines!.setFinishedFlag(false);
-
     let url = keywordPair.getUrl();
     let tempWords = keywordPair.getKeyword().split(" ");
 
+    // if there is more than one word in the keyword string
+    // shift
     if(tempWords.length > 1){
       let temp: string[] = [...tempWords];
 
@@ -54,7 +60,7 @@ export class ShifterInvocation extends KwicsFilterInvocation {
           let wordString = this.createString(temp);
 
           let tempPair = new KeywordPair(wordString, url);
-          this._devPrinter?.printKeywordPair(tempPair);
+          this._devPrinter!.printMessage("pushing shifted keyword " + tempPair.getKeyword())
 
           this.outputLines!.insert(tempPair);
         }
@@ -64,19 +70,15 @@ export class ShifterInvocation extends KwicsFilterInvocation {
         temp.push(firstWord!);
       }
     }
+    // only one keyword
     else{
-      if(this._filtering && !NoiseFilter.isNoise(tempWords[0])){
-        this._devPrinter!.printMessage("pushing keyword");
-        this.outputLines!.insert(keywordPair);
-      }
-      else{
-        this._devPrinter!.printMessage("pushing keyword");
+      // if the keyword isn't a noise word, pass it to outputlines
+      if(!NoiseFilter.isNoise(tempWords[0])){
+        this._devPrinter!.printMessage("pushing shifted keyword");
 
         this.outputLines!.insert(keywordPair);
       }
     }
-
-    this.outputLines?.setFinishedFlag(true);
   }
 
   private createString(words: string[]): string{

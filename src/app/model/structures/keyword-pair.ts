@@ -14,4 +14,8 @@ export class KeywordPair {
   getUrl(){
     return this._url;
   }
+
+  toString(): string{
+    return "Keywords: " + this._keywords + ",\nURL: " + this.getUrl();
+  }
 }

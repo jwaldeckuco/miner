@@ -21,14 +21,10 @@ export class ImprovedArray extends Array implements Iterable<any>{
     return super.includes(element);
   }
 
-  // override find(element: any): any{
-  //   super.find(arrayElement => arrayElement === element);
-  // }
-
   remove(element: any){
     if(this.has(element)){
-      let index = this.getElementByIndex(element);
-      super.splice(index);
+      let index = this.indexOf(element);
+      super.splice(index, 1);
     }
   }
 

@@ -3,6 +3,7 @@ import {ImprovedArray} from "./improved-array";
 import {EventType} from "../invocation/event/event-type";
 import {KwicsEvent} from "../invocation/event/kwics-event";
 import {DevPrinter} from "../dev/dev-printer";
+import {RemoveKeywordEvent} from "../invocation/event/remove-keyword-event";
 
 export class ListenableStorage extends KwicsListenable{
   protected _pairs: ImprovedArray;
@@ -14,21 +15,20 @@ export class ListenableStorage extends KwicsListenable{
     this._finished = false;
 
     this._devPrinter = new DevPrinter("ListenableStorage");
-    this._devPrinter.setPrint(false);
-
+    this._devPrinter.setPrint(true);
   }
 
   insert(element: any){
     this._devPrinter.setFunctionName("insert");
+
     this._pairs.add(element);
-    // this.updateListeners(new KwicsEvent(EventType.ELEMENT_ADDED_EVENT));
   }
 
   remove(element: any){
     this._devPrinter.setFunctionName("remove");
 
     this._pairs.remove(element);
-    this.updateListeners(new KwicsEvent(EventType.ELEMENT_REMOVED_EVENT));
+    this.updateListeners(new RemoveKeywordEvent(element));
   }
 
   read(): any {
@@ -41,15 +41,12 @@ export class ListenableStorage extends KwicsListenable{
     return this._pairs.getElementByIndex(index);
   }
 
+  // returns the length of the pairs Improved Array
   get length(){
-    this._devPrinter.setFunctionName("get length");
-
     return this._pairs.length;
   }
 
   isEmpty(): boolean {
-    this._devPrinter.setFunctionName("isEmpty");
-
     return this._pairs.isEmpty();
   }
 
@@ -59,16 +56,21 @@ export class ListenableStorage extends KwicsListenable{
     this._pairs.clear();
   }
 
+  // sets the finished flag, notifying listeners if true
   setFinishedFlag(finished: boolean){
+    this._devPrinter.setFunctionName("setFinishedFlag");
+
     this._finished = finished;
 
     if(finished){
+      // this._devPrinter.printMessage("finished flag set");
+
       this.updateListeners(new KwicsEvent(EventType.READ_READY));
     }
   }
 
+  // clears the keyword storage pairs
   clear(){
     this._pairs.clear();
   }
-
 }

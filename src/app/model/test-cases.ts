@@ -1,6 +1,8 @@
+import {KeywordPair} from "./structures/keyword-pair";
+
 export class TestCases {
-  static cases: Array<string> = [
-    "How old is Keith",
+  // static cases: Array<string> = [
+  //   "How old is Keith",
     // "He How old is James",
     // "He is a year older than Keith but he looks younger",
     // "How your father",
@@ -49,9 +51,48 @@ export class TestCases {
     // "Yes that true Your son is doing well at school is not he",
     // "Yes he is He very hard working when he at school Then he comes home from school and does his homework before dinner After dinner he goes out with his friends",
     // "So he not a bookworm It good that he has an outgoing personality Some kids are very quiet and introverted You wonder how they survive in the real world without their parents to support them",
-  ]
+  // ]
 
-  static getCases() : Array<string>{
+  static cases: KeywordPair[] =
+    [
+      new KeywordPair("University of Central Oklahoma", "http://www.uco.edu"),
+      new KeywordPair("University of Oklahoma",		"http://www.ou.edu"),
+      new KeywordPair("Arizona State University",		"http://www.asu.edu"),
+      new KeywordPair("Oklahoma State University",		"http://www.osu.edu"),
+
+
+  //   Keyword-1: University
+  // Output:
+  //   University of Central Oklahoma		http://www.uco.edu
+  //   University of Oklahoma			http://www.ou.edu
+  //   Arizona State University		http://www.asu.edu
+  //   Oklahoma State University		http://www.osu.edu
+  //
+  //
+  //
+  //   Keywords-2: Oklahoma University
+  // Output:
+  //   University of Central Oklahoma		http://www.uco.edu
+  //   University of Oklahoma			http://www.ou.edu
+  //   Oklahoma State University		http://www.osu.edu
+  //
+  //
+  //   Keywords-3: State University
+  // Output:
+  //   Arizona State University		http://www.asu.edu
+  //   Oklahoma State University		http://www.osu.edu
+  //
+  //   Keywords-4: University Texas
+  // Output:
+  //   Empty
+  //
+  // Keywords-5: Arizona University
+  // Output:
+  //   Arizona State University		http://www.asu.edu
+  //
+    ];
+
+  static getCases() : KeywordPair[] {
     return this.cases;
   }
 }

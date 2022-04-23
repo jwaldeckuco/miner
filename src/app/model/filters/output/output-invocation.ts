@@ -44,6 +44,7 @@ export class OutputInvocation {
         this.outputLines!.addKeywordPair(this.inputLines.getAtIndex(i));
       }
 
+      this.inputLines.clear();
       this.outputLines!.setFinishedFlag(true);
     }
   }
