@@ -48,4 +48,18 @@ export class KeywordsStorage extends ListenableStorage{
 
     return this._pairs;
   }
+
+  search(searchKeywords: string): ImprovedArray{
+    this._devPrinter.setFunctionName("search");
+
+    let temp: ImprovedArray = new ImprovedArray();
+
+    for(let i = 0; i < this._pairs.length; ++i){
+      if(this._pairs.getElementByIndex(i).containsKeywords(searchKeywords)){
+        temp.push(this._pairs.getElementByIndex(i));
+      }
+    }
+
+    return temp;
+  }
 }

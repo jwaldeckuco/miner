@@ -11,14 +11,15 @@ export class AppComponentState {
   private _adminAreaVisibility: boolean = false;
   private _userAreaVisibility: boolean = true;
   private _existingKeywordsVisibility: boolean = false;
-  private _searchAreaVisibility: boolean = true;
   private _resultsVisibility: boolean = false;
 
   // button states
   private _adminButtonString: string = "Turn on Admin Mode";
   private _addKeywordButtonState: boolean = true;
+  private _addKeywordButtonFocus: boolean = false;
   private _resetButtonState: boolean = true;
   private _searchButtonState: boolean = false;
+  private _searchButtonFocus: boolean = true;
   private _devModeString: string = "Turn on Dev Mode";
 
   constructor() {
@@ -27,10 +28,12 @@ export class AppComponentState {
     this._existingKeywordsVisibility = false;
     this._resultsVisibility = false;
     this._addKeywordButtonState = false;
+    this._addKeywordButtonFocus = false;
     this._resetButtonState = false;
     this._executionTime = 0;
     this._devModeString = "Turn Dev Mode on";
     this._adminMode = false;
+    this._userAreaVisibility = true;
   }
 
   // TIMER
@@ -85,19 +88,6 @@ export class AppComponentState {
     this._userAreaVisibility = !this.userAreaVisibility;
   }
 
-  // - existing keywords
-  set existingKeywordsVisibility(value: boolean) {
-    this._existingKeywordsVisibility = value;
-  }
-
-  get existingKeywordsVisibility(): boolean {
-    return this._existingKeywordsVisibility;
-  }
-
-  toggleExistingKeywordsVisibility(){
-    this._existingKeywordsVisibility = !this._existingKeywordsVisibility;
-  }
-
   // - results visibility
   set resultsVisibility(value: boolean) {
     this._resultsVisibility = value;
@@ -109,6 +99,19 @@ export class AppComponentState {
 
   toggleResultsVisibility(){
     this._resultsVisibility = !this._resultsVisibility;
+  }
+
+  // - existing keywords
+  set existingKeywordsVisibility(value: boolean) {
+    this._existingKeywordsVisibility = value;
+  }
+
+  get existingKeywordsVisibility(): boolean {
+    return this._existingKeywordsVisibility;
+  }
+
+  toggleExistingKeywordsVisibility(){
+    this._existingKeywordsVisibility = !this._existingKeywordsVisibility;
   }
 
   // BUTTON STATES
@@ -128,6 +131,14 @@ export class AppComponentState {
 
   toggleAddKeywordButtonState(){
     this._addKeywordButtonState = !this._addKeywordButtonState;
+  }
+
+  get addKeywordButtonFocus(): boolean {
+    return this._addKeywordButtonFocus;
+  }
+
+  set addKeywordButtonFocus(value: boolean){
+    this._addKeywordButtonFocus = value;
   }
 
   // - reset button
@@ -167,6 +178,14 @@ export class AppComponentState {
     this._searchButtonState = !this._searchButtonState;
   }
 
+  get searchButtonFocus(): boolean {
+    return this._searchButtonFocus;
+  }
+
+  set searchButtonFocus(value: boolean ){
+    this._searchButtonFocus = value;
+  }
+
   toggleResetButtonState(){
     this._resetButtonState = !this._resetButtonState;
   }
@@ -194,9 +213,13 @@ export class AppComponentState {
 
     if(this._adminMode){
       this._userAreaVisibility = false;
+      this._searchButtonFocus = false;
+      this._addKeywordButtonFocus = true;
     }
     else{
+      this._addKeywordButtonFocus = false;
       this._userAreaVisibility = true;
+      this._searchButtonFocus = true;
     }
   }
 

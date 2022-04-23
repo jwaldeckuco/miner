@@ -1,1 +1,12 @@
-<p>result-card works!</p>
+<div class="card p-1 m-2">
+  <div class="card-body">
+    <div class="d-inline">
+      {{keywordPair.getKeyword()}}
+    </div>
+    <div class="d-inline float-end">
+      <a (click)="navigateToSite()">
+        {{keywordPair.getUrl()}}
+      </a>
+    </div>
+  </div>
+</div>

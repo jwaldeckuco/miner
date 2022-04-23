@@ -9,6 +9,7 @@ import {AppComponentState} from "./app-component-state";
 import {ButtonState} from "../../view/button-state";
 import {KWICSManagerInvocation} from "../../model/kwicsmanager-invocation";
 import {DevPrinter} from "../../model/dev/dev-printer";
+import {ImprovedArray} from "../../model/structures/improved-array";
 
 @Component({
   selector: 'app-root',
@@ -59,8 +60,9 @@ export class AppComponent implements OnInit, ListenerInterface {
 
   initialLoad(){
     this.devPrinter.setFunctionName("initialLoad");
-
     this.devPrinter.printMessage("inserting existing keywords");
+
+    this.state.startTimer();
 
     this.keywordPairs.setFinishedFlag(false);
 
@@ -69,6 +71,8 @@ export class AppComponent implements OnInit, ListenerInterface {
     });
 
     this.keywordPairs.setFinishedFlag(true);
+
+    this.state.stopTimer();
   }
 
   ngOnInit(): void { }
@@ -76,14 +80,13 @@ export class AppComponent implements OnInit, ListenerInterface {
   toggleAdminMode(){
     this.devPrinter.setFunctionName("toggleAdminMode");
     this.devPrinter.printMessage("toggling adminMode");
+
     this.state.toggleAdmin();
-    if(this.state.adminMode){
-      this.update();
-    }
+    this.update();
   }
 
   onAdminKeywordChange(){
-    if(this.newKeywordInput.value !== "" && this.newKeywordInput.value !== ""){
+    if(this.newKeywordInput.value !== "" && this.newUrlInput.value !== ""){
       this.state.addKeywordButtonState = ButtonState.ENABLED;
     }
     else{
@@ -95,15 +98,17 @@ export class AppComponent implements OnInit, ListenerInterface {
     this.devPrinter.setFunctionName("onSearchKeywordChange");
 
     if(this.searchKeywordInput.value === ""){
-      this.state.addKeywordButtonState = ButtonState.DISABLED;
+      this.state.searchButtonState = ButtonState.DISABLED;
     }
     else{
-      this.state.addKeywordButtonState = ButtonState.ENABLED;
+      this.state.searchButtonState = ButtonState.ENABLED;
     }
   }
 
   onAddKeywordButtonPressed(){
     this.devPrinter.setFunctionName("submitKeyword");
+
+    this.state.startTimer();
 
     let pair = new KeywordPair(this.newKeywordInput.value, this.newUrlInput.value);
     this.keywordPairs.addKeywordPair(pair);
@@ -113,6 +118,7 @@ export class AppComponent implements OnInit, ListenerInterface {
     this.newUrlInput.setValue('');
 
     this.state.addKeywordButtonState = ButtonState.DISABLED;
+    this.state.stopTimer();
   }
 
   onRemoveKeywordButtonPressed(pair: KeywordPair){
@@ -121,12 +127,33 @@ export class AppComponent implements OnInit, ListenerInterface {
     this.devPrinter.printKeywordPair(pair);
 
     this.keywordPairs.removeKeywordPair(pair);
+
   }
 
   onSearchButtonPressed(){
-    this.searchWord = this.searchKeywordInput.value;
+    this.devPrinter.setFunctionName("onSearchButtonPressed");
 
+    this.searchResults.clear();
+
+    // get the search keyword and clear the input box
+    this.searchWord = this.searchKeywordInput.value;
     this.searchKeywordInput.setValue("");
+
+    this.devPrinter.printMessage("searching for " + this.searchWord);
+
+    // disable the button
+    this.state.searchButtonState = ButtonState.DISABLED;
+
+    // search keywordPairs and set searchResults
+    let temp = this.keywordPairs.search(this.searchWord);
+
+    for(let i = 0; i < temp.length; i++){
+      this.searchResults.addKeywordPair(temp.getElementByIndex(i));
+    }
+
+    this.searchWord = "";
+
+    this.updateUserArea();
   }
 
   // UI functions
@@ -135,20 +162,22 @@ export class AppComponent implements OnInit, ListenerInterface {
 
     if(this.state.adminMode){
       this.devPrinter.printMessage("updating admin area")
+
       this.devPrinter.printMessage("existingKeywords.length: " + this.existingKeywords.length)
       this.state.existingKeywordsVisibility = this.existingKeywords.isEmpty();
 
     }
     else{
       this.devPrinter.printMessage("updating user area")
-      this.updateSearch();
+
+      this.updateUserArea();
     }
   }
 
-  updateSearch(){
+  updateUserArea(){
     this.devPrinter.setFunctionName("update");
 
-    this.state.resultsVisibility = this.existingKeywords.isEmpty();
+    this.state.resultsVisibility = this.searchResults.length > 0;
   }
 
   notify(event: KwicsEvent): any {

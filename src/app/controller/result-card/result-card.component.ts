@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {KeywordPair} from "../../model/structures/keyword-pair";
 
 @Component({
   selector: 'app-result-card',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['../../view/result-card/result-card.component.css']
 })
 export class ResultCardComponent implements OnInit {
+  @Input() keywordPair!: KeywordPair;
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  navigateToSite(){
+    window.open(this.keywordPair.getUrl());
   }
 
 }
