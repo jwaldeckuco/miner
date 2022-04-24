@@ -1,6 +1,4 @@
-import {KwicsEvent} from "../invocation/event/kwics-event";
-import {EventType} from "../invocation/event/event-type";
-import {KwicsListenable} from "./kwics-listenable";
+
 import {ImprovedArray} from "./improved-array";
 import {KeywordPair} from "./keyword-pair";
 import {DevPrinter} from "../dev/dev-printer";

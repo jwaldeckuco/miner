@@ -55,7 +55,7 @@
           <div *ngIf="this.state.existingKeywordsVisibility; else noExistingKeywordsBlock">
             <div class="d-inline w-75">Keywords</div>
             <div class="d-inline w-25 float-end">URL</div>
-            <div *ngFor="let pair of keywordPairs!.getPairs()">
+            <div *ngFor="let pair of existingKeywords!.getPairs()">
               <app-existing-keywords-card [pair]="pair"></app-existing-keywords-card>
               <button class="btn btn-danger w-100 float-end" (click)="onRemoveKeywordButtonPressed(pair)">Remove</button>
             </div>

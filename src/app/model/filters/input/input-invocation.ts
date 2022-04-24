@@ -38,12 +38,6 @@ export class InputInvocation {
   process(event: KwicsEvent): any {
     this._devPrinter?.setFunctionName("process");
     this._addPair();
-    // if(event.eventType === EventType.READ_READY){
-    //
-    // }
-    // if(event.eventType === EventType.KEYWORD_REMOVED_EVENT){
-    //   this._removePair(event as RemoveKeywordEvent);
-    // }
   }
 
   private _addPair(){

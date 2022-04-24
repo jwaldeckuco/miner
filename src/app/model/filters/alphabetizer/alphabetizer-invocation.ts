@@ -91,20 +91,6 @@ export class AlphabetizerInvocation extends KwicsFilterInvocation {
       // greater than array
       this.greaterThan.push(count);
     }
-
-    // dev- checks if two keywords have the same sort order
-    for (let i = 0; i < this.greaterThan.length; ++i) {
-      let word = this.inputLines?.getAtIndex(i).getKeyword();
-
-      for (let j = 0; j < this.greaterThan.length; ++j) {
-        if (i != j) {
-          if (this.greaterThan[i] === this.greaterThan[j]) {
-            let compareWord = this.inputLines?.getAtIndex(j).getKeyword();
-            console.log("same value " + word + " and \n " + compareWord);
-          }
-        }
-      }
-    }
   }
 
   private compareLineValues(aIndex: number, bIndex: number) {
